@@ -1,0 +1,96 @@
+@import "tailwindcss";
+@plugin "daisyui";
+
+@plugin "daisyui/theme" {
+  name: "coral";
+  default: true;
+  prefersdark: false;
+  color-scheme: "light";
+  --color-base-100: #ffffff;
+  --color-base-200: #f9f9f8;
+  --color-base-300: #f1f0ef;
+  --color-base-content: #21201c;
+  --color-primary: #eb5e41;
+  --color-primary-content: #ffffff;
+  --color-secondary: #c9453b;
+  --color-secondary-content: #ffffff;
+  --color-accent: #de5045;
+  --color-accent-content: #ffffff;
+  --color-neutral: #21201c;
+  --color-neutral-content: #fdfdfc;
+  --color-info: #0090ff;
+  --color-info-content: #ffffff;
+  --color-success: #30a46c;
+  --color-success-content: #ffffff;
+  --color-warning: #ffc53d;
+  --color-warning-content: #21201c;
+  --color-error: #e5484d;
+  --color-error-content: #ffffff;
+  --radius-selector: 0.375rem;
+  --radius-field: 0.25rem;
+  --radius-box: 0.375rem;
+  --size-selector: 0.25rem;
+  --size-field: 0.25rem;
+  --border: 1px;
+  --depth: 0;
+  --noise: 0;
+}
+
+@plugin "daisyui/theme" {
+  name: "coral-dark";
+  default: false;
+  prefersdark: true;
+  color-scheme: "dark";
+  --color-base-100: #191918;
+  --color-base-200: #222221;
+  --color-base-300: #2a2a28;
+  --color-base-content: #eeeeec;
+  --color-primary: #eb5e41;
+  --color-primary-content: #ffffff;
+  --color-secondary: #f47a5c;
+  --color-secondary-content: #1c1412;
+  --color-accent: #ef6b4e;
+  --color-accent-content: #1c1412;
+  --color-neutral: #494844;
+  --color-neutral-content: #eeeeec;
+  --color-info: #0090ff;
+  --color-info-content: #ffffff;
+  --color-success: #30a46c;
+  --color-success-content: #ffffff;
+  --color-warning: #ffc53d;
+  --color-warning-content: #21201c;
+  --color-error: #e5484d;
+  --color-error-content: #ffffff;
+  --radius-selector: 0.375rem;
+  --radius-field: 0.25rem;
+  --radius-box: 0.375rem;
+  --size-selector: 0.25rem;
+  --size-field: 0.25rem;
+  --border: 1px;
+  --depth: 0;
+  --noise: 0;
+}
+
+/* Remove double outline / offset outline on focused inputs and selects */
+.input:focus,
+.input:focus-visible,
+.input:focus-within,
+.select:focus,
+.select:focus-visible {
+  outline: none;
+  outline-offset: 0;
+}
+
+.input input:focus,
+.input input:focus-visible {
+  outline: none;
+  outline-offset: 0;
+  box-shadow: none;
+}
+
+/* Hide native clear control on search inputs if any remain */
+.input input[type="search"]::-webkit-search-cancel-button,
+.input input[type="search"]::-webkit-search-decoration {
+  -webkit-appearance: none;
+  appearance: none;
+}
