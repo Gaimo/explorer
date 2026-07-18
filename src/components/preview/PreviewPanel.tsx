@@ -2,7 +2,9 @@ import { useState } from "react";
 import { File } from "../../icons";
 import {
   formatBytes,
+  isAudio,
   isImage,
+  isMedia,
   isVideo,
   toAssetUrl,
 } from "../../lib/media";
@@ -48,7 +50,7 @@ export function PreviewPanel({
     setTagInput("");
   };
 
-  const media = !entry.isDir && (isImage(entry) || isVideo(entry));
+  const media = isMedia(entry);
 
   return (
     <div className="flex h-full flex-col overflow-auto">
@@ -67,7 +69,11 @@ export function PreviewPanel({
               />
             ) : (
               <div className="flex h-28 items-center justify-center text-sm opacity-60">
-                Open video viewer
+                {isAudio(entry)
+                  ? "Open audio player"
+                  : isVideo(entry)
+                    ? "Open video viewer"
+                    : "Open media viewer"}
               </div>
             )}
           </div>

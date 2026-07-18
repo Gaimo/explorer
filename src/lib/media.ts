@@ -23,6 +23,18 @@ const VIDEO_EXTENSIONS = new Set([
   "ogv",
 ]);
 
+const AUDIO_EXTENSIONS = new Set([
+  "mp3",
+  "wav",
+  "ogg",
+  "oga",
+  "m4a",
+  "aac",
+  "flac",
+  "opus",
+  "weba",
+]);
+
 export function isImage(entry: FileEntry): boolean {
   if (entry.isDir || !entry.extension) return false;
   return IMAGE_EXTENSIONS.has(entry.extension.toLowerCase());
@@ -31,6 +43,15 @@ export function isImage(entry: FileEntry): boolean {
 export function isVideo(entry: FileEntry): boolean {
   if (entry.isDir || !entry.extension) return false;
   return VIDEO_EXTENSIONS.has(entry.extension.toLowerCase());
+}
+
+export function isAudio(entry: FileEntry): boolean {
+  if (entry.isDir || !entry.extension) return false;
+  return AUDIO_EXTENSIONS.has(entry.extension.toLowerCase());
+}
+
+export function isMedia(entry: FileEntry): boolean {
+  return isImage(entry) || isVideo(entry) || isAudio(entry);
 }
 
 export function toAssetUrl(path: string): string {

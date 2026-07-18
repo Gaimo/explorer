@@ -11,7 +11,7 @@ import { FileListView } from "./components/explorer/FileList";
 import { MediaViewerDialog } from "./components/preview/MediaViewerDialog";
 import { PreviewPanel } from "./components/preview/PreviewPanel";
 import { PromptDialog } from "./components/explorer/PromptDialog";
-import { isImage, isVideo } from "./lib/media";
+import { isMedia } from "./lib/media";
 import { useContextMenu } from "./hooks/useContextMenu";
 import { useDirectory } from "./hooks/useDirectory";
 import { useDrives } from "./hooks/useDrives";
@@ -109,7 +109,7 @@ function App() {
 
   const handleSelect = (entry: FileEntry) => {
     select(entry);
-    if (!entry.isDir && (isImage(entry) || isVideo(entry))) {
+    if (isMedia(entry)) {
       setMediaViewer(entry);
     } else {
       setMediaViewer(null);
@@ -332,7 +332,12 @@ function App() {
 
       <MediaViewerDialog
         entry={mediaViewer}
+        entries={visibleEntries}
         onClose={() => setMediaViewer(null)}
+        onNavigate={(next) => {
+          select(next);
+          setMediaViewer(next);
+        }}
       />
 
       {menu ? (

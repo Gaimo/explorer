@@ -1,6 +1,8 @@
 import type { LucideIcon, LucideProps } from "lucide-react";
 import {
   ClipboardPaste as LucideClipboardPaste,
+  ChevronLeft as LucideChevronLeft,
+  ChevronRight as LucideChevronRight,
   Copy as LucideCopy,
   ExternalLink as LucideExternalLink,
   File as LucideFile,
@@ -12,6 +14,7 @@ import {
   LayoutGrid as LucideLayoutGrid,
   List as LucideList,
   Minus as LucideMinus,
+  Music as LucideMusic,
   Pencil as LucidePencil,
   RefreshCw as LucideRefreshCw,
   Scissors as LucideScissors,
@@ -30,6 +33,8 @@ export type Icon = LucideIcon;
 export type IconProps = LucideProps;
 
 export const ClipboardPaste = LucideClipboardPaste;
+export const ChevronLeft = LucideChevronLeft;
+export const ChevronRight = LucideChevronRight;
 export const Copy = LucideCopy;
 export const ExternalLink = LucideExternalLink;
 export const File = LucideFile;
@@ -41,6 +46,7 @@ export const Home = LucideHome;
 export const LayoutGrid = LucideLayoutGrid;
 export const List = LucideList;
 export const Minus = LucideMinus;
+export const Music = LucideMusic;
 export const Pencil = LucidePencil;
 export const RefreshCw = LucideRefreshCw;
 export const Scissors = LucideScissors;

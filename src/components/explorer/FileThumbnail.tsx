@@ -1,6 +1,6 @@
 import { useState } from "react";
-import { File, Folder } from "../../icons";
-import { isImage, isVideo, toAssetUrl } from "../../lib/media";
+import { File, Folder, Music } from "../../icons";
+import { isAudio, isImage, isVideo, toAssetUrl } from "../../lib/media";
 import type { FileEntry } from "../../types/fs";
 
 interface FileThumbnailProps {
@@ -22,6 +22,16 @@ export function FileThumbnail({
         className={`flex shrink-0 items-center justify-center overflow-hidden rounded-field bg-base-300 ${className}`}
       >
         <Folder className={iconClassName} />
+      </span>
+    );
+  }
+
+  if (isAudio(entry)) {
+    return (
+      <span
+        className={`flex shrink-0 items-center justify-center overflow-hidden rounded-field bg-base-200 ${className}`}
+      >
+        <Music className={iconClassName} />
       </span>
     );
   }

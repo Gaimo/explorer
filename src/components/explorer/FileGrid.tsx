@@ -1,5 +1,5 @@
 import type { DragEvent, MouseEvent } from "react";
-import { formatBytes, isImage, isVideo } from "../../lib/media";
+import { formatBytes, isAudio, isImage, isVideo } from "../../lib/media";
 import { dragEntryOut } from "../../lib/drag";
 import { normalizePathKey } from "../../lib/path";
 import type { FileEntry } from "../../types/fs";
@@ -87,7 +87,9 @@ export function FileGrid({
                       ? "Image"
                       : isVideo(entry)
                         ? "Video"
-                        : formatBytes(entry.size)}
+                        : isAudio(entry)
+                          ? "Audio"
+                          : formatBytes(entry.size)}
                 </span>
               </button>
             );

@@ -11,6 +11,7 @@ pub fn run() {
     tauri::Builder::default()
         .plugin(tauri_plugin_opener::init())
         .plugin(tauri_plugin_drag::init())
+        .plugin(prevent_default())
         .setup(|app| {
             let (conn, db_path) = db::open_db(app.handle())?;
             app.manage(DbState(std::sync::Arc::new(std::sync::Mutex::new(conn))));
@@ -40,4 +41,15 @@ pub fn run() {
         ])
         .run(tauri::generate_context!())
         .expect("error while running tauri application");
+}
+
+#[cfg(debug_assertions)]
+fn prevent_default() -> tauri::plugin::TauriPlugin<tauri::Wry> {
+    // Keep DevTools and reload available while developing.
+    tauri_plugin_prevent_default::debug()
+}
+
+#[cfg(not(debug_assertions))]
+fn prevent_default() -> tauri::plugin::TauriPlugin<tauri::Wry> {
+    tauri_plugin_prevent_default::init()
 }
