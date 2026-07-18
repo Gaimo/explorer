@@ -15,6 +15,7 @@ import { isImage, isVideo } from "./lib/media";
 import { useContextMenu } from "./hooks/useContextMenu";
 import { useDirectory } from "./hooks/useDirectory";
 import { useDrives } from "./hooks/useDrives";
+import { useExplorerShortcuts } from "./hooks/useExplorerShortcuts";
 import { useFavorites } from "./hooks/useFavorites";
 import { useFileClipboard } from "./hooks/useFileClipboard";
 import { useFileMetadata } from "./hooks/useFileMetadata";
@@ -140,6 +141,31 @@ function App() {
     }
     refresh();
   };
+
+  const dialogOpen =
+    deleteTarget !== null ||
+    renameTarget !== null ||
+    newFolderOpen ||
+    tagTarget !== null ||
+    mediaViewer !== null;
+
+  useExplorerShortcuts({
+    enabled: !dialogOpen,
+    handlers: {
+      onDelete: () => {
+        if (selected) setDeleteTarget(selected);
+      },
+      onCopy: () => {
+        if (selected) copyEntries([selected]);
+      },
+      onCut: () => {
+        if (selected) cutEntries([selected]);
+      },
+      onPaste: () => {
+        void runAction(pasteClipboard);
+      },
+    },
+  });
 
   const handleContextAction = (action: ContextAction) => {
     const target = menu?.target;

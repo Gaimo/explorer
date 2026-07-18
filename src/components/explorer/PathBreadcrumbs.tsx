@@ -47,7 +47,7 @@ export function PathBreadcrumbs({ path, onNavigate }: PathBreadcrumbsProps) {
   }
 
   return (
-    <div className="breadcrumbs max-w-full overflow-x-auto text-sm">
+    <div className="breadcrumbs min-w-0 max-w-full overflow-x-auto text-sm">
       <ul>
         {crumbs.map((crumb, index) => {
           const isLast = index === crumbs.length - 1;

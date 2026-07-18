@@ -62,24 +62,16 @@ export function Toolbar({
   onSearchChange,
 }: ToolbarProps) {
   return (
-    <div className="navbar min-h-12 gap-3 border-b border-base-300 bg-base-200 px-3">
-      <div className="navbar-start min-w-0 flex-1">
+    <div className="navbar min-h-12 gap-2 overflow-hidden border-b border-base-300 bg-base-200 px-3">
+      <div className="navbar-start min-w-0 flex-1 overflow-hidden">
         <PathBreadcrumbs path={path} onNavigate={onNavigate} />
-      </div>
-      <div className="navbar-center hidden min-w-0 max-w-md flex-1 sm:flex">
-        <SearchField
-          className="w-full"
-          value={searchQuery}
-          onChange={onSearchChange}
-          placeholder="Search by name or tag…"
-        />
       </div>
       <div className="navbar-end shrink-0 gap-2">
         <SearchField
-          className="w-40 sm:hidden"
+          className="w-40 sm:w-56"
           value={searchQuery}
           onChange={onSearchChange}
-          placeholder="Name or tag…"
+          placeholder="Search by name or tag…"
         />
         <button
           type="button"
