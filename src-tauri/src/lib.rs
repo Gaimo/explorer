@@ -27,6 +27,7 @@ pub fn run() {
             commands::fs::create_directory,
             commands::fs::copy_path,
             commands::fs::move_path,
+            commands::fs::read_text_file,
             commands::metadata::get_file_metadata,
             commands::metadata::set_file_note,
             commands::metadata::add_file_tag,

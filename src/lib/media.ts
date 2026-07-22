@@ -35,6 +35,8 @@ const AUDIO_EXTENSIONS = new Set([
   "weba",
 ]);
 
+const MARKDOWN_EXTENSIONS = new Set(["md", "markdown", "mdown", "mkd"]);
+
 export function isImage(entry: FileEntry): boolean {
   if (entry.isDir || !entry.extension) return false;
   return IMAGE_EXTENSIONS.has(entry.extension.toLowerCase());
@@ -48,6 +50,11 @@ export function isVideo(entry: FileEntry): boolean {
 export function isAudio(entry: FileEntry): boolean {
   if (entry.isDir || !entry.extension) return false;
   return AUDIO_EXTENSIONS.has(entry.extension.toLowerCase());
+}
+
+export function isMarkdown(entry: FileEntry): boolean {
+  if (entry.isDir || !entry.extension) return false;
+  return MARKDOWN_EXTENSIONS.has(entry.extension.toLowerCase());
 }
 
 export function isMedia(entry: FileEntry): boolean {

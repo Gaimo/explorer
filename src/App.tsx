@@ -9,9 +9,10 @@ import {
 import { FileGrid } from "./components/explorer/FileGrid";
 import { FileListView } from "./components/explorer/FileList";
 import { MediaViewerDialog } from "./components/preview/MediaViewerDialog";
+import { MarkdownViewerDialog } from "./components/preview/MarkdownViewerDialog";
 import { PreviewPanel } from "./components/preview/PreviewPanel";
 import { PromptDialog } from "./components/explorer/PromptDialog";
-import { isMedia } from "./lib/media";
+import { isMarkdown, isMedia } from "./lib/media";
 import { useContextMenu } from "./hooks/useContextMenu";
 import { useDirectory } from "./hooks/useDirectory";
 import { useDrives } from "./hooks/useDrives";
@@ -85,6 +86,7 @@ function App() {
   const [newFolderOpen, setNewFolderOpen] = useState(false);
   const [tagTarget, setTagTarget] = useState<FileEntry | null>(null);
   const [mediaViewer, setMediaViewer] = useState<FileEntry | null>(null);
+  const [markdownViewer, setMarkdownViewer] = useState<FileEntry | null>(null);
 
   const visibleEntries = useMemo(
     () => (isSearching ? searchResults : entries),
@@ -95,6 +97,7 @@ function App() {
   const handleNavigate = (nextPath: string) => {
     clear();
     setMediaViewer(null);
+    setMarkdownViewer(null);
     setSearchQuery("");
     navigateTo(nextPath);
   };
@@ -103,6 +106,7 @@ function App() {
     if (!entry.isDir) return;
     clear();
     setMediaViewer(null);
+    setMarkdownViewer(null);
     setSearchQuery("");
     navigateTo(entry.path);
   };
@@ -111,8 +115,13 @@ function App() {
     select(entry);
     if (isMedia(entry)) {
       setMediaViewer(entry);
+      setMarkdownViewer(null);
+    } else if (isMarkdown(entry)) {
+      setMarkdownViewer(entry);
+      setMediaViewer(null);
     } else {
       setMediaViewer(null);
+      setMarkdownViewer(null);
     }
   };
 
@@ -147,7 +156,8 @@ function App() {
     renameTarget !== null ||
     newFolderOpen ||
     tagTarget !== null ||
-    mediaViewer !== null;
+    mediaViewer !== null ||
+    markdownViewer !== null;
 
   useExplorerShortcuts({
     enabled: !dialogOpen,
@@ -325,7 +335,14 @@ function App() {
               await removeTag(tag);
               await refreshTags();
             }}
-            onOpenMedia={setMediaViewer}
+            onOpenMedia={(entry) => {
+              setMarkdownViewer(null);
+              setMediaViewer(entry);
+            }}
+            onOpenMarkdown={(entry) => {
+              setMediaViewer(null);
+              setMarkdownViewer(entry);
+            }}
           />
         }
       />
@@ -337,6 +354,16 @@ function App() {
         onNavigate={(next) => {
           select(next);
           setMediaViewer(next);
+        }}
+      />
+
+      <MarkdownViewerDialog
+        entry={markdownViewer}
+        entries={visibleEntries}
+        onClose={() => setMarkdownViewer(null)}
+        onNavigate={(next) => {
+          select(next);
+          setMarkdownViewer(next);
         }}
       />
 

@@ -241,6 +241,37 @@ pub fn copy_path(source: String, destination_dir: String) -> Result<String, AppE
     Ok(path_to_string(&to))
 }
 
+const MAX_TEXT_FILE_BYTES: u64 = 1_048_576; // 1 MB
+
+#[tauri::command]
+pub fn read_text_file(path: String) -> Result<String, AppError> {
+    let file_path = PathBuf::from(&path);
+
+    if !file_path.exists() {
+        return Err(AppError::new(format!("Path does not exist: {path}")));
+    }
+
+    if !file_path.is_file() {
+        return Err(AppError::new(format!("Path is not a file: {path}")));
+    }
+
+    let metadata = fs::metadata(&file_path)?;
+    if metadata.len() > MAX_TEXT_FILE_BYTES {
+        return Err(AppError::new(format!(
+            "File is too large to preview (max {} bytes)",
+            MAX_TEXT_FILE_BYTES
+        )));
+    }
+
+    fs::read_to_string(&file_path).map_err(|err| {
+        if err.kind() == std::io::ErrorKind::InvalidData {
+            AppError::new(format!("File is not valid UTF-8 text: {path}"))
+        } else {
+            AppError::from(err)
+        }
+    })
+}
+
 #[tauri::command]
 pub fn move_path(
     state: State<'_, DbState>,

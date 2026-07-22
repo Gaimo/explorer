@@ -1,15 +1,18 @@
 import { useState } from "react";
 import { File } from "../../icons";
+import { useTextFile } from "../../hooks/useTextFile";
 import {
   formatBytes,
   isAudio,
   isImage,
+  isMarkdown,
   isMedia,
   isVideo,
   toAssetUrl,
 } from "../../lib/media";
 import type { FileEntry } from "../../types/fs";
 import { FileTag } from "../explorer/FileTag";
+import { MarkdownPreview } from "./MarkdownPreview";
 
 interface PreviewPanelProps {
   entry: FileEntry | null;
@@ -20,6 +23,7 @@ interface PreviewPanelProps {
   onAddTag: (tag: string) => Promise<void> | void;
   onRemoveTag: (tag: string) => Promise<void> | void;
   onOpenMedia?: (entry: FileEntry) => void;
+  onOpenMarkdown?: (entry: FileEntry) => void;
 }
 
 export function PreviewPanel({
@@ -31,8 +35,15 @@ export function PreviewPanel({
   onAddTag,
   onRemoveTag,
   onOpenMedia,
+  onOpenMarkdown,
 }: PreviewPanelProps) {
   const [tagInput, setTagInput] = useState("");
+  const markdown = entry !== null && isMarkdown(entry);
+  const {
+    content: markdownContent,
+    loading: markdownLoading,
+    error: markdownError,
+  } = useTextFile(markdown ? entry.path : null);
 
   if (!entry) {
     return (
@@ -76,6 +87,26 @@ export function PreviewPanel({
                     : "Open media viewer"}
               </div>
             )}
+          </div>
+          <p className="mt-2 text-center text-xs opacity-50">Click to open</p>
+        </button>
+      ) : markdown ? (
+        <button
+          type="button"
+          className="shrink-0 border-b border-base-300 p-3 text-left transition-colors hover:bg-base-200/60"
+          onClick={() => onOpenMarkdown?.(entry)}
+        >
+          <div className="max-h-36 overflow-hidden rounded-box bg-base-200/40 p-3">
+            {markdownLoading ? (
+              <p className="text-sm opacity-60">Loading…</p>
+            ) : markdownError ? (
+              <p className="text-sm text-error">{markdownError}</p>
+            ) : markdownContent != null ? (
+              <MarkdownPreview
+                content={markdownContent}
+                className="markdown-preview--compact pointer-events-none"
+              />
+            ) : null}
           </div>
           <p className="mt-2 text-center text-xs opacity-50">Click to open</p>
         </button>

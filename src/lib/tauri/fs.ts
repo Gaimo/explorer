@@ -41,3 +41,7 @@ export async function movePath(
 ): Promise<string> {
   return invoke<string>("move_path", { source, destinationDir });
 }
+
+export async function readTextFile(path: string): Promise<string> {
+  return invoke<string>("read_text_file", { path });
+}
